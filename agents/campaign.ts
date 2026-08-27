@@ -11,7 +11,6 @@
 import { z } from "zod";
 import type { Agent, AgentContext } from "@/agents/types";
 import type { Trade } from "@/lib/domain";
-import { getGroq, GROQ_MODEL } from "@/lib/groq";
 
 export const CampaignCreativeSchema = z.object({
   adHeadline: z.string(),
@@ -103,6 +102,9 @@ export async function generateCampaign(
     return PREBAKED_CAMPAIGN;
   }
   try {
+    // Dynamic import keeps groq-sdk (server-only) out of any client bundle
+    // that imports this module for its types / pre-baked creative.
+    const { getGroq, GROQ_MODEL } = await import("@/lib/groq");
     const groq = getGroq();
     const completion = await groq.chat.completions.create({
       model: GROQ_MODEL,
