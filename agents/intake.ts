@@ -20,7 +20,11 @@ export function computeDemandTimeline(project: Project): DemandTimeline {
     const active = project.phases.filter((p) => week >= p.startWeek && week < p.endWeek);
     const byTrade = new Map<Trade, number>();
     for (const phase of active) {
-      for (const [trade, count] of Object.entries(phase.crew) as [Trade, number][]) {
+      for (const [tradeKey, count] of Object.entries(phase.crew)) {
+        // Guard against undefined / NaN crew values (a bad seed or hand-edit)
+        // silently poisoning the demand curve and escaping the gap filter.
+        if (count == null || !Number.isFinite(count)) continue;
+        const trade = tradeKey as Trade;
         // Peak concurrent crew: the largest single phase demand this week.
         byTrade.set(trade, Math.max(byTrade.get(trade) ?? 0, count));
       }

@@ -54,8 +54,15 @@ export function forecastGaps(input: ForecastInput): LaborGap[] {
     });
   }
 
-  // Largest, soonest gaps first — the ones worth acting on.
-  gaps.sort((a, b) => b.gap - a.gap || a.neededByWeek - b.neededByWeek);
+  // Largest, soonest gaps first — the ones worth acting on. Trade name is
+  // the final tiebreak so the total order is explicit and never relies on
+  // engine sort stability or object-key iteration order.
+  gaps.sort(
+    (a, b) =>
+      b.gap - a.gap ||
+      a.neededByWeek - b.neededByWeek ||
+      a.trade.localeCompare(b.trade),
+  );
   return gaps;
 }
 
