@@ -3,6 +3,7 @@ import { Nav } from "@/components/Nav";
 import { IsometricFactory } from "@/components/IsometricFactory";
 import { LoopRing } from "@/components/LoopRing";
 import { LOOP_NODES } from "@/components/loop";
+import { Reveal } from "@/components/Reveal";
 
 export default function Landing() {
   return (
@@ -13,13 +14,7 @@ export default function Landing() {
       <section className="relative overflow-hidden">
         <div className="hero-glow pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
         <div className="mx-auto max-w-4xl px-6 pt-24 pb-16 text-center">
-          <div className="fade-up mb-7 inline-flex items-center gap-2 pill px-3 py-1 text-[13px] text-fg-muted">
-            <span className="text-accent">New</span>
-            <span className="text-fg-dim">·</span>
-            <span>The workforce supply factory</span>
-            <span className="text-fg-dim">→</span>
-          </div>
-          <h1 className="display fade-up text-5xl font-semibold sm:text-6xl md:text-7xl">
+          <h1 className="display fade-up mt-4 text-5xl font-semibold sm:text-6xl md:text-7xl">
             Everyone is fighting over
             <br /> the same workers.
             <br />
@@ -53,6 +48,7 @@ export default function Landing() {
       {/* Thesis split */}
       <section id="thesis" className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-24">
+         <Reveal>
           <p className="eyebrow mb-3 text-center">The whitespace</p>
           <h2 className="display mx-auto max-w-3xl text-center text-4xl font-semibold sm:text-5xl">
             Everyone else operates downstream of a worker who already exists.
@@ -69,13 +65,14 @@ export default function Landing() {
               <p className="mt-4 text-fg-muted">AI is displacing white-collar work, producing exactly the people the trades need. We route them in, credential them, and place them.</p>
             </div>
           </div>
+         </Reveal>
         </div>
       </section>
 
       {/* The Loop */}
       <section id="loop" className="border-t border-border">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-2">
-          <div>
+          <Reveal>
             <p className="eyebrow mb-3">The closed loop</p>
             <h2 className="display text-4xl font-semibold sm:text-5xl">One loop. It compounds.</h2>
             <p className="mt-5 text-lg text-fg-muted">
@@ -92,7 +89,7 @@ export default function Landing() {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
           <div className="flex justify-center">
             <LoopRing />
           </div>
@@ -102,10 +99,12 @@ export default function Landing() {
       {/* Fleet grid */}
       <section id="fleet" className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-24">
+         <Reveal>
           <p className="eyebrow mb-3">The fleet</p>
           <h2 className="display max-w-2xl text-4xl font-semibold sm:text-5xl">Six agents, one contract.</h2>
           <p className="mt-4 max-w-2xl text-fg-muted">Every node is a typed input → output. Deterministic where the numbers must be provable; generative where the work is creative.</p>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+         </Reveal>
+          <Reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {LOOP_NODES.map((n) => (
               <div key={n.id} className="rounded-xl border border-border bg-bg-card p-6 transition-colors hover:border-border-strong">
                 <div className="mb-3 flex items-center justify-between">
@@ -117,14 +116,14 @@ export default function Landing() {
                 <p className="mt-4 font-mono text-[12px] text-fg-dim">{n.io}</p>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Own the code */}
       <section id="code" className="border-t border-border">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-2">
-          <div>
+          <Reveal>
             <p className="eyebrow mb-3">Anti-black-box</p>
             <h2 className="display text-4xl font-semibold sm:text-5xl">We hand you a codebase, not a flowchart.</h2>
             <p className="mt-5 text-lg text-fg-muted">
@@ -134,7 +133,7 @@ export default function Landing() {
             <Link href="/code" className="mt-6 inline-block btn-ghost px-5 py-2 text-[14px]">
               Open the codebase →
             </Link>
-          </div>
+          </Reveal>
           <div className="rounded-xl border border-border bg-bg-card p-5 font-mono text-[12.5px] leading-relaxed">
             <div className="mb-3 flex gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
@@ -157,9 +156,11 @@ export default function Landing() {
       {/* CTA band */}
       <section className="border-t border-border">
         <div className="mx-auto max-w-3xl px-6 py-28 text-center">
+         <Reveal>
           <h2 className="display text-4xl font-semibold sm:text-5xl">Watch the loop close in 90 seconds.</h2>
           <p className="mx-auto mt-5 max-w-xl text-lg text-fg-muted">A live run: a project lands, the gap appears, the campaign generates on screen, the pipeline fills, and the workers get dispatched.</p>
           <Link href="/demo" className="btn-primary mt-9 inline-block px-7 py-3 text-[15px]">See it run →</Link>
+         </Reveal>
         </div>
       </section>
 

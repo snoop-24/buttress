@@ -24,20 +24,27 @@ const FUNNEL = [
 
 export function IsometricFactory() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl [perspective:1700px]">
-      {/* Static isometric tilt (Sprint signature) */}
+    <div
+      className="relative mx-auto w-full max-w-5xl [perspective:1900px]"
+      style={{
+        // Fade the whole thing into the dark background (Sprint bleeds into black
+        // rather than sitting as a solid card).
+        opacity: 0.8,
+        WebkitMaskImage: "linear-gradient(to bottom, #000 34%, transparent 96%)",
+        maskImage: "linear-gradient(to bottom, #000 34%, transparent 96%)",
+      }}
+    >
+      {/* Isometric tilt matching the Sprint reference: recedes up-and-to-the-right,
+          with the front at the lower-left. */}
       <div
         style={{
-          transform: "rotateX(19deg) rotateY(-25deg) rotateZ(2deg)",
+          transform: "rotateX(21deg) rotateY(26deg) rotateZ(-8deg)",
           transformStyle: "preserve-3d",
         }}
       >
         {/* Float animation lives on an inner element so it doesn't clobber the tilt */}
         <div style={{ animation: "floatPanel 7s ease-in-out infinite" }}>
-        <div
-          className="grid grid-cols-2 gap-5 rounded-2xl border border-border-strong bg-bg-card p-5"
-          style={{ boxShadow: "0 60px 120px -40px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.02)" }}
-        >
+        <div className="grid grid-cols-2 gap-5 p-1">
           {/* Lane A — paperwork automation (demand engine) */}
           <div className="rounded-xl border border-border bg-bg-elevated/60 p-4">
             <div className="mb-3 flex items-center justify-between">
