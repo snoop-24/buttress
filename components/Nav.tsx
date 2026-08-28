@@ -19,7 +19,7 @@ export function Nav() {
           <span className="text-[15px] font-semibold tracking-tight">Buttress</span>
         </Link>
         <div className="hidden items-center gap-8 text-[14px] text-fg-muted md:flex">
-          <a href="#thesis" className="transition-colors hover:text-fg">Why</a>
+          <Link href="/why" className="transition-colors hover:text-fg">Why</Link>
           <a href="#loop" className="transition-colors hover:text-fg">The Loop</a>
           <a href="#fleet" className="transition-colors hover:text-fg">Fleet</a>
           <a href="#code" className="transition-colors hover:text-fg">Own the code</a>
