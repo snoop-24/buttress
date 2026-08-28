@@ -13,7 +13,7 @@ export default function Landing() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="hero-glow pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
-        <div className="mx-auto max-w-4xl px-6 pt-24 pb-16 text-center">
+        <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-4xl flex-col justify-center px-6 pb-10 text-center">
           <h1 className="display fade-up mt-4 text-5xl font-semibold sm:text-6xl md:text-7xl">
             Everyone is fighting over
             <br /> the same workers.
