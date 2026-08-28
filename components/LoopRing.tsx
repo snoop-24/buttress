@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { LOOP_NODES } from "@/components/loop";
 
 const CENTER = 260;
@@ -13,7 +14,7 @@ function nodePos(i: number) {
  * - No `activeIndex`: autoplay a highlight traveling the ring (landing).
  * - `activeIndex` set: light that node, and mark earlier nodes complete (demo).
  */
-export function LoopRing({
+function LoopRingBase({
   activeIndex,
   size = 520,
 }: {
@@ -101,3 +102,7 @@ export function LoopRing({
     </svg>
   );
 }
+
+/** Memoized so it re-renders only when the active node changes — not on every
+ * typewriter keystroke or funnel tick during the demo run. */
+export const LoopRing = memo(LoopRingBase);
