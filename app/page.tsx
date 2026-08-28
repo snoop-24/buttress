@@ -131,6 +131,9 @@ export default function Landing() {
               Every other agent builder locks you into a canvas you can&rsquo;t leave. Buttress
               emits your fleet as real, editable agent code you own — open it, read it, change it.
             </p>
+            <Link href="/code" className="mt-6 inline-block btn-ghost px-5 py-2 text-[14px]">
+              Open the codebase →
+            </Link>
           </div>
           <div className="rounded-xl border border-border bg-bg-card p-5 font-mono text-[12.5px] leading-relaxed">
             <div className="mb-3 flex gap-1.5">
