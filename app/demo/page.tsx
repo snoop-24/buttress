@@ -6,14 +6,16 @@ import { Logo } from "@/components/Nav";
 import { LoopRing } from "@/components/LoopRing";
 import { LOOP_NODES } from "@/components/loop";
 import { DEMO_CANDIDATES, DEMO_FIRM, DEMO_PROJECT } from "@/data/seed";
+import { SAMPLE_DOCS, DEFAULT_DOC } from "@/data/sample-docs";
 import { computeDemandTimeline } from "@/agents/intake";
 import { forecastGaps } from "@/agents/forecaster";
+import { demandToProject, type ProcessedDoc } from "@/agents/paperwork";
 import { computeFunnel } from "@/lib/funnel";
 import { computeEfficiency, DEFAULT_BASELINE, BASELINE_ASSUMPTIONS } from "@/lib/metrics";
 import type { LaborGap } from "@/agents/types";
 import type { CampaignCreative } from "@/agents/campaign";
 import type { EfficiencyReport } from "@/lib/metrics";
-import type { FunnelStage } from "@/lib/domain";
+import type { FunnelStage, Project } from "@/lib/domain";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -38,6 +40,8 @@ export default function Demo() {
   const [typed, setTyped] = useState("");
   const [funnelCounts, setFunnelCounts] = useState<Partial<Record<FunnelStage, number>>>({});
   const [efficiency, setEfficiency] = useState<EfficiencyReport | null>(null);
+  const [docText, setDocText] = useState(DEFAULT_DOC);
+  const [processed, setProcessed] = useState<ProcessedDoc | null>(null);
   const runId = useRef(0);
 
   const regionLabel = `${DEMO_FIRM.region.city}, ${DEMO_FIRM.region.state}`;
@@ -53,18 +57,35 @@ export default function Demo() {
     setTyped("");
     setFunnelCounts({});
     setEfficiency(null);
+    setProcessed(null);
 
-    // 1. Intake
-    setStatus("Ingesting project schedule…");
+    // 1. Intake — process the source paperwork live (Groq unless offline)
+    setStatus(demoMode ? "Reading paperwork (offline)…" : "Reading the project paperwork live…");
     setActiveIndex(0);
-    const timeline = computeDemandTimeline(DEMO_PROJECT);
-    await sleep(1100);
+    let project: Project = DEMO_PROJECT;
+    try {
+      const res = await fetch("/api/paperwork", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ document: docText, demoMode }),
+      });
+      const doc: ProcessedDoc = await res.json();
+      if (alive()) setProcessed(doc);
+      if (doc.demand && doc.demand.phases.some((p) => Object.keys(p.crew).length)) {
+        project = demandToProject(doc.demand, DEMO_FIRM.id, DEMO_FIRM.region);
+      }
+    } catch {
+      /* the API falls back internally; keep DEMO_PROJECT */
+    }
+    if (!alive()) return;
+    const timeline = computeDemandTimeline(project);
+    await sleep(700);
     if (!alive()) return;
 
     // 2. Forecaster
     setStatus("Forecasting the labor gap…");
     setActiveIndex(1);
-    const gaps = forecastGaps({ timeline, firm: DEMO_FIRM, projectStartDate: DEMO_PROJECT.startDate });
+    const gaps = forecastGaps({ timeline, firm: DEMO_FIRM, projectStartDate: project.startDate });
     const topGap = gaps[0];
     await sleep(700);
     setGap(topGap);
@@ -214,8 +235,62 @@ export default function Demo() {
         </div>
       </header>
 
+      {/* Source paperwork */}
+      <div className="mx-auto w-full max-w-7xl px-6 pt-6">
+        <div className="rounded-2xl border border-border bg-bg-card p-4">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <span className="eyebrow">Source paperwork · back office {demoMode ? "(offline)" : "· live"}</span>
+            <div className="flex flex-wrap gap-1.5">
+              {SAMPLE_DOCS.map((d) => (
+                <button
+                  key={d.id}
+                  onClick={() => {
+                    setDocText(d.text);
+                    setProcessed(null);
+                  }}
+                  disabled={phase === "running"}
+                  className="rounded-full border border-border px-2.5 py-0.5 font-mono text-[10.5px] text-fg-muted transition-colors hover:bg-bg-elevated disabled:opacity-40"
+                >
+                  {d.kind}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            <textarea
+              value={docText}
+              onChange={(e) => {
+                setDocText(e.target.value);
+                setProcessed(null);
+              }}
+              disabled={phase === "running"}
+              spellCheck={false}
+              className="h-28 w-full resize-none rounded-lg border border-border bg-bg px-3 py-2 font-mono text-[11px] leading-relaxed text-fg-muted outline-none focus:border-border-strong disabled:opacity-70"
+            />
+            <div className="rounded-lg border border-border bg-bg-elevated/40 p-3">
+              {processed ? (
+                <div>
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="rounded border border-border-strong px-1.5 py-0.5 font-mono text-[9.5px] uppercase text-fg-muted">
+                      {processed.docType}
+                    </span>
+                    <span className="font-mono text-[10.5px] text-good">{processed.autoAction}</span>
+                  </div>
+                  <p className="text-[12.5px] font-medium text-fg">{processed.title}</p>
+                  <p className="mt-0.5 text-[11.5px] text-fg-muted">{processed.summary}</p>
+                </div>
+              ) : (
+                <p className="font-mono text-[11px] text-fg-dim">
+                  Press Run — Buttress parses this document live and derives the labor demand.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Stage */}
-      <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-6 py-8 lg:grid-cols-[1.05fr_1fr]">
+      <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-6 pt-6 pb-8 lg:grid-cols-[1.05fr_1fr]">
         {/* Left: the loop */}
         <section className="flex flex-col items-center justify-center rounded-2xl border border-border bg-bg-card p-6">
           <LoopRing activeIndex={activeIndex} size={480} />
