@@ -158,6 +158,17 @@ body {
 .reveal[data-shown="true"] > *:nth-child(7) { transition-delay: 0.62s; }
 .reveal[data-shown="true"] > *:nth-child(8) { transition-delay: 0.72s; }
 
+/* Arrived via anchor / deep link: appear instantly, no fade or stagger. */
+.reveal-instant > * {
+  transition: none !important;
+  transition-delay: 0s !important;
+}
+
+/* Anchor jumps land below the sticky nav, not under it. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal > * { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
