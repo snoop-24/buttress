@@ -54,6 +54,12 @@ export default function Landing() {
           <h2 className="display mx-auto max-w-3xl text-center text-4xl font-semibold sm:text-5xl">
             Everyone else operates downstream of a worker who already exists.
           </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-fg-muted">
+            Recruiters, staffing agencies, and forecasting tools all begin with someone who&rsquo;s
+            already in the trade. But the U.S. is hundreds of thousands of tradespeople short — so
+            they&rsquo;re all fighting over the same shrinking pool. Buttress starts one step earlier:
+            it <span className="text-fg">creates the worker</span>, then places them on your job.
+          </p>
           <div className="mt-14 grid gap-5 md:grid-cols-2">
             <div className="rounded-2xl border border-border bg-bg-card p-8">
               <p className="eyebrow mb-4">Everyone else · allocation</p>
@@ -120,6 +126,11 @@ export default function Landing() {
               let the firm take on more projects — which creates more demand. Each turn makes
               the next one bigger.
             </p>
+            <p className="mt-4 text-fg-muted">
+              Six agents run it end to end, with no human hand-offs between steps: they read your
+              paperwork, forecast the shortage, generate the recruitment campaign, work the funnel,
+              credential candidates, and dispatch them to the exact job that created the demand.
+            </p>
             <ul className="mt-8 space-y-3">
               {LOOP_NODES.map((n) => (
                 <li key={n.id} className="flex items-start gap-3">
@@ -142,7 +153,7 @@ export default function Landing() {
          <Reveal>
           <p className="eyebrow mb-3">The fleet</p>
           <h2 className="display max-w-2xl text-4xl font-semibold sm:text-5xl">Six agents, one contract.</h2>
-          <p className="mt-4 max-w-2xl text-fg-muted">Every node is a typed input → output. Deterministic where the numbers must be provable; generative where the work is creative.</p>
+          <p className="mt-4 max-w-2xl text-fg-muted">Each card is one agent — what it takes in, what it produces. Two run on live AI (parsing your documents and writing the recruitment campaign); the other four are plain, deterministic code. That split is deliberate: the creative work is generative, but the headline shortage number is computed in code, so it can never be a hallucination.</p>
          </Reveal>
           <Reveal className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {LOOP_NODES.map((n) => (
