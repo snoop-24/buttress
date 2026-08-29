@@ -199,6 +199,18 @@ html.present-mode { scroll-snap-type: y proximity; }
   padding-bottom: 1.5rem;
 }
 
+/* Adaptive fit: on a short viewport (a windowed browser, a 720p projector) shrink
+   the whole type scale so even the tallest section fits one screen. Everything is
+   rem-based, so lowering the root font-size scales text, padding and gaps together
+   — and min-height:100vh stays viewport-based, so slides still fill the screen.
+   Full-size on tall/full-screen displays where nothing needs shrinking. */
+@media (max-height: 800px) {
+  html.present-mode { font-size: 13.5px; }
+}
+@media (max-height: 680px) {
+  html.present-mode { font-size: 11.5px; }
+}
+
 /* Scan line sweeping over a document as the back-office animation parses it. */
 .scan-line {
   position: absolute;
