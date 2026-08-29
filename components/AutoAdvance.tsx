@@ -70,7 +70,7 @@ export function AutoAdvance() {
   // Visible confirmation that presentation mode is live. If you don't see this
   // pill, the ?present flag didn't take — that's the whole diagnostic.
   return (
-    <div className="fixed bottom-4 left-4 z-[100] flex items-center gap-2 rounded-full border border-border bg-bg-card/90 px-3 py-1 font-mono text-[11px] text-fg-muted backdrop-blur">
+    <div className="fixed bottom-4 right-4 z-[100] flex items-center gap-2 rounded-full border border-border bg-bg-card/90 px-3 py-1 font-mono text-[11px] text-fg-muted backdrop-blur">
       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-good" />
       auto-advancing · scroll or press a key to pause
     </div>
