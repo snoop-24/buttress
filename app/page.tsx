@@ -5,10 +5,12 @@ import { LoopRing } from "@/components/LoopRing";
 import { LOOP_NODES } from "@/components/loop";
 import { Reveal } from "@/components/Reveal";
 import { PaperworkProcessor } from "@/components/PaperworkProcessor";
+import { AutoAdvance } from "@/components/AutoAdvance";
 
 export default function Landing() {
   return (
     <main className="flex-1">
+      <AutoAdvance />
       <Nav />
 
       {/* Hero */}
@@ -207,7 +209,7 @@ export default function Landing() {
       </section>
 
       {/* CTA band */}
-      <section className="border-t border-border">
+      <section id="cta" className="border-t border-border">
         <div className="mx-auto max-w-3xl px-6 py-28 text-center">
          <Reveal>
           <h2 className="display text-4xl font-semibold sm:text-5xl">Watch the loop close in 90 seconds.</h2>

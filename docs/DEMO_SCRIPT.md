@@ -1,101 +1,100 @@
-# Buttress — 3-Minute Live Demo Script
+# Buttress — 3-Minute Live Demo Script (lean)
 
-**Format:** live only — the landing page + the deployed site. **No slides.**
+**Format:** live only — landing page + deployed site. **No slides.**
 **Distribution:** Talk 1:30 · Demo 1:00 · Close 0:30. Strict 3:00.
-**Audience:** builders, ranked-choice vote. Win = clarity + one line they repeat + a woah moment. Don't rush — a rushed demo reads as "I don't understand my own product." You have time. Use the pauses.
+**How to use this:** these are the *only* lines you have to hit. Say them, pause, let them land, then improvise the connective tissue in your own words. Don't read — deliver. Silence between lines is the tool the other teams won't use.
 
-**Setup before you walk up:** browser FOCUSED, full-screen. Two tabs: `/` (landing, top) and the deployed `/demo` (idle). Timers throttle when unfocused — never tab away mid-run.
+**Setup:** browser FOCUSED, full-screen. Two tabs — landing (top) + deployed demo (idle). Never tab away mid-run (timers throttle unfocused).
 
-*Bold = a line to land. Pause after it. **Italics = stage direction.***
+*Bold = say it, then pause. Italics = do it, don't say it.*
 
 ---
 
-## PART 1 — Landing page · 0:00 → 1:30
+## PART 1 — Landing · 0:00 → 1:30
 
-*Open on `/`. Don't touch anything. Let the hero sit for the first line.*
+*Open on the landing page. Don't touch it yet.*
 
-> "Right now, construction firms are turning down real projects. Not because there's no money, and not because there's no demand — **because they physically cannot find the people to build them.**
+> **Construction firms are turning down real projects — not for money, not for demand. They can't find the people to build them.**
 >
-> The trades are short hundreds of thousands of workers. And every tool built for this problem does the same thing: it fights over the workers who already exist. Recruiters, staffing agencies, forecasting software — all of them reshuffling the same shrinking deck."
+> The trades are short hundreds of thousands of workers. Every tool out there just fights over the ones who already exist.
 
-*Pause. This is the turn.*
+*Pause. The turn:*
 
-> "Buttress does something nobody else does. **It reads the answer straight out of the firm's own paperwork.**"
+> **Buttress does something else: it automates the construction back office — and reads the shortage straight out of the paperwork.**
 
-*Scroll slowly to `#backoffice` — land on the PaperworkProcessor.*
+*Scroll to the paperwork section.*
 
-> "A mid-size contractor runs hundreds of live document streams — RFIs, change orders, schedules, pay applications. A back office full of people reading PDFs all day. And buried in those PDFs is a fact nobody connects to hiring: **exactly which trade you're about to be short. In which city. In which week.**
+> A contractor runs hundreds of documents a day — schedules, RFIs, change orders. Buried in them: **which trade you're about to be short, which city, which week.**
 >
-> Buttress automates that entire back office. It ingests the paperwork the way that team does — but it doesn't just file it. It turns it into the thing you actually need: **the hiring campaign that fills the gap.**"
+> Buttress runs that office automatically — and turns it into the hiring campaign that fills the gap.
 
-*Scroll to `#loop`. Stop on the ring.*
+*Scroll to the loop ring.*
 
-> "Six agents, end to end, no human hand-off between them. Read the paperwork. Forecast the shortage. Write the campaign. Work the funnel. Credential. Dispatch onto the exact job that created the demand.
+> Six agents, end to end, no human in between: read the paperwork, forecast the gap, write the campaign, dispatch to the job. **And it compounds — every hire lets the firm take on more work, which creates more demand.**
 >
-> And it's a loop — every worker it lands lets the firm take on more work, which creates more demand, which feeds the next turn. **It doesn't run once. It compounds.**
->
-> That's the pitch. Now let me just show you it's real."
+> Let me show you it's real.
 
-*Switch tab to the deployed `/demo`. Target: 1:30.*
+*Switch to the deployed demo. Target: 1:30.*
 
 ---
 
 ## PART 2 — Demo · 1:30 → 2:30
 
-*Click **Run** immediately. Talk over it — never narrate silence.*
+*Don't narrate the ring step-by-step — the timing won't line up with your talking. Instead: click Run, give the overview while it runs, then explain the results once they're sitting on the side.*
 
-> "This is a real firm's project pipeline. Up top — **that's a live AI call, right now, reading an actual construction schedule.** Not a recording. Not a fixture. The model, reading the document, live."
+### 2a. Click Run — walk the loop while it runs (timing-independent) · ~25 sec
 
-*Gap resolves. Point at it. Slow down.*
+*Click Run, then point at the ring and walk the six agents at your own pace. It does NOT matter which circle is lit — you're narrating the loop, not tracking the animation:*
 
-> "And there it is: **twelve electricians short. Phoenix. Needed by October 26th.**
+> "While this runs — the whole thing is **six agents in one loop, no human between them:**
+> - **Intake** reads the paperwork and turns it into labor demand.
+> - **Forecaster** compares that to their crew and finds the gap.
+> - **Campaign** writes the recruitment ads and the landing page.
+> - Then **Nurture** works the funnel, **Screening** credentials them, and **Dispatch** puts them on the job that created the demand.
 >
-> One line about that number: it's computed in code, not guessed by a model — so a contractor can actually trust it. That's the only sentence I'll spend on it."
+> Two of those are live AI — reading the document and writing the campaign. The rest is plain code, so the numbers are reproducible. **And it's a loop — every hire lets the firm take on more work, which creates more demand.**"
 
-*Campaign generation starts writing on screen.*
+*(That's ~25 sec of material you control — plenty to cover the run. If it finishes early, go straight to 2b; if it's still going, slow down.)*
 
-> "Because *this* is the part that doesn't exist anywhere else — **watch the campaign write itself.** Targeting, channel, the actual ad copy, pointed at that exact trade, that exact city, that exact deadline. **A PDF just became a hiring campaign, and no human touched it.**"
+### 2b. Once it settles — explain the two results on the side · ~40 sec
 
-*Funnel animates 30 → 24 → 20 → 16 → 12.*
+*Point at the Forecaster panel (top right):*
+> "Here's what the **Forecaster** worked out: **twelve electricians short, in Phoenix, needed by October 26th.** That number is computed in code, not guessed by a model — so you can actually trust it."
 
-> "Candidates come in — labeled **simulated**, we're not faking placements — get screened, credentialed, dispatched onto the job that started all of this. **The loop closes on screen.**"
+*Point at the Campaign panel (right below it):*
+> "And here's what the **Campaign** agent generated from that — live: a full hiring page and ad, aimed at that exact trade, city, and deadline. **A PDF turned into a hiring campaign, with no human in between.**"
 
-*Target: 2:30. If the metric/own-the-code beats fit, add: "measured against the manual baseline — and every agent you just saw ships as real code you own, built in Qoder." Cut it without hesitation if you're at 2:30.*
+*Optional if time:* "The funnel and the efficiency numbers below are the rest of the loop closing — screened, credentialed, dispatched."
 
 ---
 
 ## PART 3 — Close · 2:30 → 3:00
 
-*Stop clicking. Look up at the room. This is the vote. Slow. Down.*
+*Stop clicking. Look up. Slow down.*
 
-> "Every other tool automates one corner of the office and stops.
+> Everyone else automates one corner of the office and stops. **Buttress automates the whole thing — all the way to the hire.**
 >
-> **Buttress automates the whole thing — all the way to the hire.**
+> AI is emptying the cubicles at the exact moment the trades are starving for people. **The same wave that's laying people off, we point at the jobs it can never touch.**
 >
-> And here's why that matters right now: AI is emptying the cubicles at the exact moment the trades are starving for people. **The same automation wave that's laying people off, we point straight at the jobs it can never touch.**
+> The construction back office stops being a filing cabinet — and starts running itself.
 >
-> The construction back office stops being a filing cabinet — and starts **running itself, all the way to the crew on site.**
->
-> That's Buttress. Thank you."
+> **That's Buttress. Thank you.**
 
 ---
 
-## The four lines that carry the vote (memorize verbatim)
+## The four lines that carry the vote (if you blank, these ARE the pitch)
 
-1. **"It reads the answer straight out of the firm's own paperwork."** — the turn, ~0:30
+1. **"It reads the shortage straight out of the paperwork."** — the turn, ~0:30
 2. **"A PDF just became a hiring campaign, and no human touched it."** — the woah, ~2:10
 3. **"Buttress automates the whole office — all the way to the hire."** — the reframe, ~2:35
-4. **"The same automation wave that's laying people off, we point at the jobs it can never touch."** — the line they repeat, ~2:45
-
-If nerves hit and you blank, these four in order ARE the pitch.
+4. **"The same wave that's laying people off, we point at the jobs it can never touch."** — the repeat line, ~2:45
 
 ---
 
-## Guardrails
+## Guardrails (not spoken — just don't slip)
 
-- Say **"hundreds of thousands"** — never "500k." (Modeled additional-worker need, not vacancies.)
+- "Hundreds of thousands," never "500k."
 - Candidate inflow is **simulated** — say it out loud. Never imply real placements.
-- Don't claim "the only one converting career-switchers" — SkillCat/Interplay do too. Your claim is the **paperwork→campaign linkage.**
-- No BlackRock grant, no DOL apprentice number on stage.
-- **Stall plan:** if the live run hangs, hit the offline toggle, say *"pre-baked fallback — same numbers either way,"* keep talking. Never debug on stage.
-- **Pacing rule:** if you feel yourself speeding up, you're losing them. The four lines above only work with a pause after each. Silence is a tool — the other teams won't use it.
+- Your claim is the **paperwork → campaign linkage**, not "the only one recruiting career-switchers."
+- No BlackRock grant, no DOL apprentice number.
+- **Stall plan:** live run hangs → hit offline toggle, say "same numbers either way," keep talking. Never debug on stage.

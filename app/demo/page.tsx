@@ -299,15 +299,32 @@ export default function Demo() {
             and sticky so it follows the funnel/metric as the run scrolls. */}
         <section className="flex flex-col items-center self-start rounded-2xl border border-border bg-bg-card p-6 lg:sticky lg:top-24">
           <LoopRing activeIndex={activeIndex} size={480} />
-          {gap && (
-            <div className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-4 py-2 font-mono text-[13px] text-accent-soft">
-              gap: {gap.gap} {gap.trade}s · {regionLabel} · by {gap.neededByDate}
-            </div>
-          )}
         </section>
 
-        {/* Right: creative + funnel + metric */}
+        {/* Right: forecaster gap → creative + funnel + metric */}
         <section className="flex flex-col gap-6">
+          {/* Forecaster output — its own panel, directly above the campaign, so
+              the gap (trade · region · date) can be explained on its own. */}
+          <div
+            className={`rounded-2xl border p-6 transition-all duration-500 ${gap ? "border-accent/40 bg-accent/[0.04]" : "border-border bg-bg-card opacity-60"}`}
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <span className="eyebrow">Forecaster · labor gap</span>
+              {gap && <span className="font-mono text-[11px] text-good">● computed in code</span>}
+            </div>
+            {gap ? (
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="display text-5xl font-semibold text-accent">{gap.gap}</span>
+                <span className="text-xl text-fg">{gap.trade}s short</span>
+                <span className="font-mono text-[13px] text-fg-muted">
+                  · {regionLabel} · needed by {gap.neededByDate}
+                </span>
+              </div>
+            ) : (
+              <p className="font-mono text-[13px] text-fg-dim">Awaiting the demand signal…</p>
+            )}
+          </div>
+
           {/* Creative panel */}
           <div className="min-h-[220px] rounded-2xl border border-border bg-bg-card p-6">
             <div className="mb-3 flex items-center justify-between">

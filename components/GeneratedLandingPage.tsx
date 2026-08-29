@@ -56,41 +56,19 @@ export function GeneratedLandingPage({
           </span>
         </div>
 
-        <p className="mt-5 text-[13.5px] leading-relaxed" style={{ color: "#403a2e" }}>
+        <p className="mt-5 line-clamp-3 text-[13.5px] leading-relaxed" style={{ color: "#403a2e" }}>
           {creative.landing.body}
         </p>
-
-        {/* Mock apply form — looks real, does nothing */}
-        <div className="mt-5 rounded-lg p-4" style={{ background: "#efe7da" }}>
-          <p className="mb-2 text-[12px] font-semibold" style={{ color: "#5c5343" }}>
-            Check if you qualify — 2 minutes
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <div className="min-w-[120px] flex-1 rounded-md px-3 py-2 text-[12px]" style={{ background: "#fff", color: "#9a927f" }}>
-              Full name
-            </div>
-            <div className="min-w-[120px] flex-1 rounded-md px-3 py-2 text-[12px]" style={{ background: "#fff", color: "#9a927f" }}>
-              Email or phone
-            </div>
-            <button className="rounded-md px-4 py-2 text-[12px] font-semibold text-white" style={{ background: "#1b1710" }}>
-              Apply
-            </button>
-          </div>
-        </div>
       </div>
 
-      {/* Ad variants the same campaign produced */}
+      {/* The same campaign also produced per-channel ad variants — collapsed to a
+          single line so the card reads as one scannable result, not a wall. */}
       {creative.social.length > 0 && (
-        <div className="border-t border-border bg-bg-card p-4">
-          <p className="eyebrow mb-2">+ matching ad variants</p>
-          <div className="grid gap-2 sm:grid-cols-3">
-            {creative.social.map((s) => (
-              <div key={s.platform} className="rounded-lg border border-border bg-bg-elevated/50 p-3">
-                <p className="font-mono text-[10px] text-accent-soft">{s.platform}</p>
-                <p className="mt-1 text-[11.5px] leading-snug text-fg-muted">{s.text}</p>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-border bg-bg-card px-4 py-3">
+          <span className="eyebrow">+ {creative.social.length} channel variants generated</span>
+          <span className="font-mono text-[11px] text-fg-dim">
+            {creative.social.map((s) => s.platform).join(" · ")}
+          </span>
         </div>
       )}
     </div>

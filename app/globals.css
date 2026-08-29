@@ -168,6 +168,15 @@ body {
   transition-delay: 0s !important;
 }
 
+/* Presentation mode (landing opened with ?present): the page auto-advances on a
+   timer, so nothing can hide behind scroll-reveal — every section must be fully
+   visible the instant it's scrolled to. Force all reveal children on. */
+.present-mode .reveal > * {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 /* Anchor jumps land below the sticky nav, not under it. */
 section[id] {
   scroll-margin-top: 5rem;
