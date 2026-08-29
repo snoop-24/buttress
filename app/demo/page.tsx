@@ -332,27 +332,33 @@ export default function Demo() {
               <span className="eyebrow">Recruitment funnel</span>
               <span className="font-mono text-[11px] text-fg-dim">simulated inflow</span>
             </div>
-            <div className="space-y-2">
-              {FUNNEL_LABELS.map(({ stage, label }, i) => {
-                const max = DEMO_CANDIDATES.length;
-                const val = funnelCounts[stage] ?? 0;
-                return (
-                  <div key={stage} className="flex items-center gap-3">
-                    <span className="w-24 shrink-0 font-mono text-[11px] text-fg-dim">{label}</span>
-                    <div className="h-5 flex-1 overflow-hidden rounded bg-bg-elevated">
-                      <div
-                        className="h-full rounded transition-[width] duration-150"
-                        style={{
-                          width: `${(val / max) * 100}%`,
-                          background: i === FUNNEL_LABELS.length - 1 ? "var(--good)" : "linear-gradient(90deg, var(--accent), var(--accent-soft))",
-                        }}
-                      />
+            {Object.keys(funnelCounts).length === 0 ? (
+              <p className="font-mono text-[13px] text-fg-dim">
+                Pipeline fills once the run reaches Screening…
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {FUNNEL_LABELS.map(({ stage, label }, i) => {
+                  const max = DEMO_CANDIDATES.length;
+                  const val = funnelCounts[stage] ?? 0;
+                  return (
+                    <div key={stage} className="flex items-center gap-3">
+                      <span className="w-24 shrink-0 font-mono text-[11px] text-fg-dim">{label}</span>
+                      <div className="h-5 flex-1 overflow-hidden rounded bg-bg-elevated">
+                        <div
+                          className="h-full rounded transition-[width] duration-150"
+                          style={{
+                            width: `${(val / max) * 100}%`,
+                            background: i === FUNNEL_LABELS.length - 1 ? "var(--good)" : "linear-gradient(90deg, var(--accent), var(--accent-soft))",
+                          }}
+                        />
+                      </div>
+                      <span className="w-7 text-right font-mono text-[13px] text-fg">{val}</span>
                     </div>
-                    <span className="w-7 text-right font-mono text-[13px] text-fg">{val}</span>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Metric */}
