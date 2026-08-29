@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Logo } from "@/components/Nav";
 import { LoopRing } from "@/components/LoopRing";
 import { LOOP_NODES } from "@/components/loop";
+import { GeneratedLandingPage } from "@/components/GeneratedLandingPage";
 import { DEMO_CANDIDATES, DEMO_FIRM, DEMO_PROJECT } from "@/data/seed";
 import { SAMPLE_DOCS, DEFAULT_DOC } from "@/data/sample-docs";
 import { computeDemandTimeline } from "@/agents/intake";
@@ -42,6 +43,7 @@ export default function Demo() {
   const [efficiency, setEfficiency] = useState<EfficiencyReport | null>(null);
   const [docText, setDocText] = useState(DEFAULT_DOC);
   const [processed, setProcessed] = useState<ProcessedDoc | null>(null);
+  const [pageReady, setPageReady] = useState(false);
   const runId = useRef(0);
 
   const regionLabel = `${DEMO_FIRM.region.city}, ${DEMO_FIRM.region.state}`;
@@ -58,6 +60,7 @@ export default function Demo() {
     setFunnelCounts({});
     setEfficiency(null);
     setProcessed(null);
+    setPageReady(false);
 
     // 1. Intake — process the source paperwork live (Groq unless offline)
     setStatus(demoMode ? "Reading paperwork (offline)…" : "Reading the project paperwork live…");
@@ -134,6 +137,7 @@ export default function Demo() {
       await sleep(26);
     }
     setTyped(script);
+    if (alive()) setPageReady(true);
     await sleep(500);
 
     // 4. Nurture
@@ -309,18 +313,13 @@ export default function Demo() {
               <span className="eyebrow">Campaign · {demoMode ? "offline" : "live on Groq"}</span>
               {creative && <span className="font-mono text-[11px] text-good">● generated</span>}
             </div>
-            {typed ? (
-              <div>
-                <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-fg">{typed}<span className="animate-pulse">▍</span></p>
-                {creative && phase === "done" && (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="btn-primary px-3 py-1 text-[12px]">{creative.landing.cta}</span>
-                    {creative.social.map((s) => (
-                      <span key={s.platform} className="pill px-3 py-1 font-mono text-[11px] text-fg-muted">{s.platform}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
+            {pageReady && creative ? (
+              <GeneratedLandingPage creative={creative} trade={gap?.trade} region={regionLabel} />
+            ) : typed ? (
+              <p className="whitespace-pre-wrap text-[15px] leading-relaxed text-fg">
+                {typed}
+                <span className="animate-pulse">▍</span>
+              </p>
             ) : (
               <p className="font-mono text-[13px] text-fg-dim">Awaiting the gap signal…</p>
             )}
