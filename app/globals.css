@@ -177,26 +177,26 @@ body {
   transition: none !important;
 }
 
-/* The presenter never uses the nav during an auto-run — hide it so slides get the
-   full viewport height and nothing is overlapped. */
-.present-mode header.sticky { display: none; }
-
 /* Each addressable section becomes a full-screen SLIDE: a solid background so no
    neighbouring section bleeds in, and its content vertically centred so the whole
-   section reads as one self-contained screen (nothing cut off, nothing leaking). */
+   section reads as one self-contained screen (nothing cut off, nothing leaking).
+   The top padding clears the sticky nav, which stays visible during the tour. */
 html.present-mode { scroll-snap-type: y proximity; }
 .present-mode section[id] {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* `safe` falls back to top-alignment if the content is taller than the screen,
+     so the heading is never clipped — only the very bottom can ever overflow. */
+  justify-content: safe center;
   scroll-snap-align: start;
   background: var(--bg);
+  padding-top: 4rem;
 }
 /* Trim the tall in-section padding so more content fits one screen. */
 .present-mode section[id] > div {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 /* Scan line sweeping over a document as the back-office animation parses it. */

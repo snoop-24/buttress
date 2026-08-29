@@ -205,7 +205,7 @@ function AutoPaperwork() {
               {scanning ? "● scanning" : "● parsed"}
             </span>
           </div>
-          <pre className="max-h-36 overflow-hidden whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed text-fg-muted">
+          <pre className="max-h-28 overflow-hidden whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed text-fg-muted">
             {doc.text}
           </pre>
           {scanning && <span key={`scan-${idx}`} className="scan-line" />}
