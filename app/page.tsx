@@ -16,15 +16,16 @@ export default function Landing() {
         <div className="hero-glow pointer-events-none absolute inset-x-0 top-0 h-[520px]" />
         <div className="mx-auto flex min-h-[calc(100svh-4rem)] max-w-4xl flex-col justify-center px-6 pb-10 text-center">
           <h1 className="display fade-up mt-4 text-5xl font-semibold sm:text-6xl md:text-7xl">
-            Everyone is fighting over
-            <br /> the same workers.
+            Automate the whole
+            <br /> construction back office.
             <br />
-            <span className="text-fg-muted">We manufacture new ones.</span>
+            <span className="text-fg-muted">Down to who you hire.</span>
           </h1>
           <p className="fade-up mx-auto mt-7 max-w-2xl text-lg text-fg-muted">
-            Buttress reads your project pipeline, predicts the trades you&rsquo;ll be short,
-            and recruits career-switchers into them — then dispatches them onto the exact
-            jobs that created the demand.
+            Buttress runs the construction back office end to end — parsing every RFI, change
+            order, and schedule the moment it lands. It reads which trade you&rsquo;re about to be
+            short, then launches the outbound campaign that recruits it.
+            <span className="text-fg"> No recruiter in between.</span>
           </p>
           <div className="fade-up mt-9 flex items-center justify-center gap-4">
             <Link href="/demo" className="btn-primary px-6 py-2.5 text-[15px]">
@@ -58,7 +59,8 @@ export default function Landing() {
             Recruiters, staffing agencies, and forecasting tools all begin with someone who&rsquo;s
             already in the trade. But the U.S. is hundreds of thousands of tradespeople short — so
             they&rsquo;re all fighting over the same shrinking pool. Buttress starts one step earlier:
-            it <span className="text-fg">creates the worker</span>, then places them on your job.
+            it <span className="text-fg">automates the outbound</span> that recruits new people into
+            the trade — pointed at your exact shortfall.
           </p>
           <div className="mt-14 grid gap-5 md:grid-cols-2">
             <div className="rounded-2xl border border-border bg-bg-card p-8">
@@ -67,9 +69,9 @@ export default function Landing() {
               <p className="mt-4 text-fg-dim">They fight over the same shrinking pool — ~350k+ trade jobs short and retirements outpacing entries.</p>
             </div>
             <div className="rounded-2xl border border-accent/30 bg-accent/[0.03] p-8" style={{ boxShadow: "0 0 60px -30px var(--accent-glow)" }}>
-              <p className="eyebrow mb-4 text-accent-soft">Buttress · manufacture</p>
-              <p className="text-2xl font-medium text-fg">Convert career-switchers into net-new trade supply — pointed at your exact shortfall.</p>
-              <p className="mt-4 text-fg-muted">AI is displacing white-collar work, producing exactly the people the trades need. We route them in, credential them, and place them.</p>
+              <p className="eyebrow mb-4 text-accent-soft">Buttress · automate</p>
+              <p className="text-2xl font-medium text-fg">Automate the outbound that recruits career-switchers into the trade you&rsquo;re short.</p>
+              <p className="mt-4 text-fg-muted">AI is displacing white-collar work — producing exactly the people the trades need. Buttress runs the campaign that reaches them the moment your paperwork shows the gap.</p>
             </div>
           </div>
          </Reveal>

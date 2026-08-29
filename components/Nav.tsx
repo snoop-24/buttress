@@ -26,9 +26,6 @@ export function Nav() {
           <Link href="/code" className="transition-colors hover:text-fg">Own the code</Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/demo" className="hidden text-[14px] text-fg-muted transition-colors hover:text-fg sm:block">
-            Log in
-          </Link>
           <Link href="/demo" className="btn-primary px-4 py-1.5 text-[14px]">
             See it run
           </Link>

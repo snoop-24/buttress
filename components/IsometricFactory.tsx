@@ -1,9 +1,14 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 /**
  * The hero visual — a tilted, floating "factory" dashboard in the Sprint
  * isometric style. It literally shows the loop: PAPERWORK being auto-processed
  * on the left lane (the demand engine) and the OUTBOUND recruiting funnel
  * filling on the right (the supply factory), joined by a demand→supply arc.
- * CSS-only animation, so it runs in a server component.
+ * The animation (including the one-shot funnel bars) is held paused until the
+ * panel scrolls into view, so the reveal isn't wasted below the fold on load.
  */
 
 const PAPERWORK = [
@@ -23,9 +28,31 @@ const FUNNEL = [
 ];
 
 export function IsometricFactory() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [run, setRun] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setRun(true);
+          io.disconnect();
+        }
+      },
+      // Fire once the panel is meaningfully on screen, not the instant its top edge peeks in.
+      { threshold: 0.3 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div
-      className="relative mx-auto w-full max-w-5xl [perspective:1900px]"
+      ref={ref}
+      data-run={run ? "1" : "0"}
+      className="iso-factory relative mx-auto w-full max-w-5xl [perspective:1900px]"
       style={{
         // Fade the whole thing into the dark background (Sprint bleeds into black
         // rather than sitting as a solid card).

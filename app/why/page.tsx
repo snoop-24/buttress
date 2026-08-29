@@ -51,14 +51,14 @@ export default function Why() {
         <div className="mx-auto max-w-4xl px-6 pt-20 pb-16 text-center">
           <p className="eyebrow fade-up mb-5">The rundown</p>
           <h1 className="display fade-up text-5xl font-semibold sm:text-6xl">
-            The trades are short half a million people.
+            The paperwork already reveals the shortage.
             <br />
-            <span className="text-fg-muted">We build the workers, not just find them.</span>
+            <span className="text-fg-muted">Buttress turns it into the campaign that fills it.</span>
           </h1>
           <p className="fade-up mx-auto mt-7 max-w-2xl text-lg text-fg-muted">
-            Buttress is the operating system that makes a construction firm autonomous end to end —
-            wedged on the one thing nobody else does: <span className="text-fg">manufacturing net-new
-            workforce supply</span>, pointed at the exact shortfall your own projects create.
+            Buttress automates the construction back office and reads, from your own documents, exactly
+            which trades your pipeline will fall short on — then <span className="text-fg">auto-generates
+            the recruitment campaign to fill each gap</span>, in the right region, before the crews are due.
           </p>
           <div className="fade-up mt-9">
             <SeeItRun />

@@ -295,8 +295,9 @@ export default function Demo() {
 
       {/* Stage */}
       <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-6 pt-6 pb-8 lg:grid-cols-[1.05fr_1fr]">
-        {/* Left: the loop */}
-        <section className="flex flex-col items-center justify-center rounded-2xl border border-border bg-bg-card p-6">
+        {/* Left: the loop — pinned to the top so it sits beside the campaign,
+            and sticky so it follows the funnel/metric as the run scrolls. */}
+        <section className="flex flex-col items-center self-start rounded-2xl border border-border bg-bg-card p-6 lg:sticky lg:top-24">
           <LoopRing activeIndex={activeIndex} size={480} />
           {gap && (
             <div className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-4 py-2 font-mono text-[13px] text-accent-soft">
