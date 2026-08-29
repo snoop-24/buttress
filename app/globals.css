@@ -177,6 +177,45 @@ body {
   transition: none !important;
 }
 
+/* The presenter never uses the nav during an auto-run — hide it so slides get the
+   full viewport height and nothing is overlapped. */
+.present-mode header.sticky { display: none; }
+
+/* Each addressable section becomes a full-screen SLIDE: a solid background so no
+   neighbouring section bleeds in, and its content vertically centred so the whole
+   section reads as one self-contained screen (nothing cut off, nothing leaking). */
+html.present-mode { scroll-snap-type: y proximity; }
+.present-mode section[id] {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  background: var(--bg);
+}
+/* Trim the tall in-section padding so more content fits one screen. */
+.present-mode section[id] > div {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+/* Scan line sweeping over a document as the back-office animation parses it. */
+.scan-line {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 14px 3px var(--accent-glow);
+  animation: scanLine 1.2s ease-in-out;
+}
+@keyframes scanLine {
+  from { top: 3rem; opacity: 0.15; }
+  50% { opacity: 1; }
+  to { top: calc(100% - 1rem); opacity: 0.15; }
+}
+
 /* Anchor jumps land below the sticky nav, not under it. */
 section[id] {
   scroll-margin-top: 5rem;

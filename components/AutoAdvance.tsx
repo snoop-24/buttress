@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
  * never kill it permanently (that was the old bug).
  */
 const SECTION_IDS = ["top", "thesis", "backoffice", "loop", "fleet", "code", "cta"];
-const NAV_OFFSET = 64; // sticky nav height, so a section lands just below it
 
 export function AutoAdvance() {
   const [active, setActive] = useState(false);
@@ -24,7 +23,7 @@ export function AutoAdvance() {
 
     setActive(true);
     document.documentElement.classList.add("present-mode");
-    const interval = Math.max(2000, Number(params.get("interval")) || 7500);
+    const interval = Math.max(2000, Number(params.get("interval")) || 10000);
 
     let i = 0;
     let pausedUntil = 0;
@@ -36,8 +35,9 @@ export function AutoAdvance() {
       }
       const el = document.getElementById(SECTION_IDS[idx]);
       if (!el) return;
-      // Absolute target (works regardless of current scroll position).
-      const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      // In present mode each section is a full-screen slide, so align its top to
+      // the viewport top (the sticky nav overlays only the centred slide's margin).
+      const y = el.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     };
 

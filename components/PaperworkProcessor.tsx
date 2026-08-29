@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { SAMPLE_DOCS } from "@/data/sample-docs";
+import { useEffect, useState } from "react";
+import { SAMPLE_DOCS, SAMPLE_EXTRACTIONS } from "@/data/sample-docs";
 import { demandToProject, type ProcessedDoc } from "@/agents/paperwork";
 import { computeDemandTimeline } from "@/agents/intake";
 import { forecastGaps } from "@/agents/forecaster";
 import { DEMO_FIRM } from "@/data/seed";
 import { TRADE_LABELS } from "@/lib/domain";
 import type { LaborGap } from "@/agents/types";
+
+const SCAN_MS = 1200; // scan-line sweep
+const HOLD_MS = 3200; // linger on the parsed result before the next document
 
 /**
  * Interactive back-office automation: pick or paste a real construction
@@ -16,6 +19,17 @@ import type { LaborGap } from "@/agents/types";
  * extraction. Used on the landing (#backoffice) and the demo page.
  */
 export function PaperworkProcessor() {
+  // In presentation mode (?present) the section plays itself — cycle the
+  // documents through an extraction animation instead of waiting for a click.
+  const [auto, setAuto] = useState(false);
+  useEffect(() => {
+    try {
+      setAuto(new URLSearchParams(window.location.search).has("present"));
+    } catch {
+      /* SSR / no window */
+    }
+  }, []);
+
   const [docId, setDocId] = useState(SAMPLE_DOCS[0].id);
   const [text, setText] = useState(SAMPLE_DOCS[0].text);
   const [busy, setBusy] = useState(false);
@@ -55,6 +69,8 @@ export function PaperworkProcessor() {
       setBusy(false);
     }
   }
+
+  if (auto) return <AutoPaperwork />;
 
   return (
     <div className="grid gap-5 md:grid-cols-2">
@@ -124,6 +140,108 @@ export function PaperworkProcessor() {
             )}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Self-playing back-office animation for presentation mode: cycles through the
+ * sample documents, sweeps a scan line over each, then reveals its pre-baked
+ * extraction and the labor-demand signal it contributes. Deterministic and
+ * offline — no API calls — and compact enough to sit in one presentation slide.
+ */
+function AutoPaperwork() {
+  const [idx, setIdx] = useState(0);
+  const [scanning, setScanning] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+    let toReveal: ReturnType<typeof setTimeout>;
+    let toNext: ReturnType<typeof setTimeout>;
+    const run = (i: number) => {
+      if (!alive) return;
+      setIdx(i);
+      setScanning(true);
+      toReveal = setTimeout(() => {
+        if (!alive) return;
+        setScanning(false);
+        toNext = setTimeout(() => run((i + 1) % SAMPLE_DOCS.length), HOLD_MS);
+      }, SCAN_MS);
+    };
+    run(0);
+    return () => {
+      alive = false;
+      clearTimeout(toReveal);
+      clearTimeout(toNext);
+    };
+  }, []);
+
+  const doc = SAMPLE_DOCS[idx];
+  const ex = SAMPLE_EXTRACTIONS[doc.id];
+
+  return (
+    <div className="space-y-4">
+      {/* Passive tabs — show which document type is being processed right now. */}
+      <div className="flex flex-wrap gap-1.5">
+        {SAMPLE_DOCS.map((d, i) => (
+          <span
+            key={d.id}
+            className={`rounded-full px-3 py-1 font-mono text-[11px] transition-colors ${
+              i === idx ? "bg-accent/15 text-accent-soft" : "border border-border text-fg-dim"
+            }`}
+          >
+            {d.kind}
+          </span>
+        ))}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {/* The document, with a scan line sweeping over it */}
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-bg-card p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="eyebrow">{doc.kind}</span>
+            <span className={`font-mono text-[10px] ${scanning ? "text-accent-soft" : "text-good"}`}>
+              {scanning ? "● scanning" : "● parsed"}
+            </span>
+          </div>
+          <pre className="max-h-36 overflow-hidden whitespace-pre-wrap font-mono text-[10.5px] leading-relaxed text-fg-muted">
+            {doc.text}
+          </pre>
+          {scanning && <span key={`scan-${idx}`} className="scan-line" />}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-bg-card to-transparent" />
+        </div>
+
+        {/* The extraction it produced */}
+        <div className="rounded-2xl border border-border bg-bg-card p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="eyebrow">Extraction</span>
+            {!scanning && <span className="font-mono text-[10px] text-good">● {ex.autoAction}</span>}
+          </div>
+          {scanning ? (
+            <div className="space-y-1.5 pt-1 font-mono text-[11.5px] text-fg-dim">
+              <p className="animate-pulse">classifying document…</p>
+              <p className="animate-pulse [animation-delay:0.2s]">extracting key fields…</p>
+              <p className="animate-pulse [animation-delay:0.4s]">deriving labor demand…</p>
+            </div>
+          ) : (
+            <div className="fade-up">
+              <p className="text-[13.5px] font-medium text-fg">{ex.title}</p>
+              <p className="mt-0.5 text-[12px] text-fg-muted">{ex.summary}</p>
+              <dl className="mt-3 space-y-1">
+                {ex.fields.map((f, i) => (
+                  <div key={i} className="flex justify-between gap-4 border-b border-border/60 pb-1 text-[12px]">
+                    <dt className="font-mono text-fg-dim">{f.label}</dt>
+                    <dd className="text-right text-fg-muted">{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-3 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 font-mono text-[11px] text-accent-soft">
+                {ex.signal}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

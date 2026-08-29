@@ -103,3 +103,82 @@ export const SAMPLE_DOCS: SampleDoc[] = [
 
 /** The default document for the hero run — reliably yields the electrician gap. */
 export const DEFAULT_DOC = SCHEDULE;
+
+/** A parsed extraction for one sample document. */
+export interface SampleExtraction {
+  docType: string;
+  autoAction: string;
+  title: string;
+  summary: string;
+  fields: { label: string; value: string }[];
+  /** The labor-demand signal this document contributes, shown as the payoff line. */
+  signal: string;
+}
+
+/**
+ * Pre-baked extractions for the auto-playing back-office animation (present mode)
+ * — deterministic and offline-safe, so the landing tour never depends on a live
+ * API call. Values are read straight off the sample documents above.
+ */
+export const SAMPLE_EXTRACTIONS: Record<string, SampleExtraction> = {
+  schedule: {
+    docType: "schedule",
+    autoAction: "parsed → demand extracted",
+    title: "Desert Ridge — Project Execution Schedule",
+    summary: "Five phases with peak concurrent crew by trade. Electrical rough-in peaks at 18.",
+    fields: [
+      { label: "Peak electricians", value: "18 · wks 6–12" },
+      { label: "Location", value: "Phoenix, AZ" },
+      { label: "Notice to proceed", value: "2026-09-14" },
+    ],
+    signal: "→ 12 electricians short · Phoenix · by 2026-10-26",
+  },
+  rfi: {
+    docType: "rfi",
+    autoAction: "logged → routed to A/E",
+    title: "RFI 142 — Electrical feeder routing conflict",
+    summary: "480V feeder conflicts with the storm drain at gridline C-7; response due 2026-09-26.",
+    fields: [
+      { label: "Spec reference", value: "26 05 19" },
+      { label: "Cost impact", value: "+$3,400" },
+      { label: "Schedule impact", value: "2 days if late" },
+    ],
+    signal: "→ electrical scope ramping — crew signal",
+  },
+  co: {
+    docType: "change-order",
+    autoAction: "priced → contract updated",
+    title: "CO 031 — (2) 25-ton rooftop HVAC units",
+    summary: "Owner-added rooftop units in Area B; contract sum and schedule adjusted.",
+    fields: [
+      { label: "Change order total", value: "$48,200" },
+      { label: "New contract sum", value: "$15,054,700" },
+      { label: "Schedule impact", value: "+3 days" },
+    ],
+    signal: "→ added HVAC scope — new labor demand",
+  },
+  payapp: {
+    docType: "pay-app",
+    autoAction: "validated → payment certified",
+    title: "Pay App 4 — AIA G702/G703",
+    summary: "Period to 2026-09-30; progress billed against the schedule of values.",
+    fields: [
+      { label: "Current payment due", value: "$882,635" },
+      { label: "Completed to date", value: "$4.21M" },
+      { label: "Electrical complete", value: "30%" },
+    ],
+    signal: "→ electrical only 30% — crews still needed",
+  },
+  submittal: {
+    docType: "submittal",
+    autoAction: "tracked → ball-in-court flagged",
+    title: "Submittal Log — 3 items",
+    summary: "Switchgear under A/E review; wall panels approved; paint to resubmit.",
+    fields: [
+      { label: "088 · 480V Switchgear", value: "Under Review" },
+      { label: "091 · Wall Panels", value: "Approved" },
+      { label: "093 · Paint Samples", value: "Revise" },
+    ],
+    signal: "→ switchgear pending — electrical path",
+  },
+};
