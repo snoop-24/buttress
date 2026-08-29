@@ -188,6 +188,7 @@ export default function Landing() {
             <Link href="/code" className="mt-6 inline-block btn-ghost px-5 py-2 text-[14px]">
               Open the codebase →
             </Link>
+            <p className="mt-5 font-mono text-[12px] text-fg-dim">Built in Qoder.</p>
           </Reveal>
           <div className="rounded-xl border border-border bg-bg-card p-5 font-mono text-[12.5px] leading-relaxed">
             <div className="mb-3 flex gap-1.5">
@@ -222,7 +223,7 @@ export default function Landing() {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 text-[13px] text-fg-dim sm:flex-row">
           <span>Buttress · the workforce supply factory</span>
-          <span className="font-mono">deterministic proof · you own the code</span>
+          <span className="font-mono">deterministic proof · you own the code · built in Qoder</span>
         </div>
       </footer>
     </main>
