@@ -1,65 +1,78 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
- * Presentation aid. When the landing page is opened with `?present` (optionally
- * `&interval=<ms>`), it auto-scrolls through the sections on a timer so the
- * presenter never has to scroll by hand — the only manual action left is
- * clicking "See it run" to jump to the demo.
+ * Presentation aid. Open the landing page with `?present` (optionally
+ * `&interval=<ms>`, default 7500) and it auto-scrolls through the sections on a
+ * timer so the presenter never has to scroll — it loops back to the top after
+ * the last section and shows a small on-screen indicator so you can SEE it's on.
  *
- * Deliberately gated on the query flag: the public landing page (the recruitment
- * artifact on the deployed URL) is left completely untouched, so a normal visitor
- * never gets their scroll hijacked. Any manual scroll hands control back for good.
+ * Gated on the flag so the public page is untouched. A manual scroll or keypress
+ * pauses it for a beat and then it resumes — an accidental trackpad brush can
+ * never kill it permanently (that was the old bug).
  */
 const SECTION_IDS = ["top", "thesis", "backoffice", "loop", "fleet", "code", "cta"];
+const NAV_OFFSET = 64; // sticky nav height, so a section lands just below it
 
 export function AutoAdvance() {
+  const [active, setActive] = useState(false);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (!params.has("present")) return;
 
-    // Force every scroll-reveal section fully visible — auto-advance can't wait
-    // for reveals to fire, or a jumped-to section shows blank on stage.
+    setActive(true);
     document.documentElement.classList.add("present-mode");
-
     const interval = Math.max(2000, Number(params.get("interval")) || 7500);
+
     let i = 0;
+    let pausedUntil = 0;
 
     const go = (idx: number) => {
       if (idx === 0) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;
       }
-      document.getElementById(SECTION_IDS[idx])?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      const el = document.getElementById(SECTION_IDS[idx]);
+      if (!el) return;
+      // Absolute target (works regardless of current scroll position).
+      const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
     };
 
     const timer = window.setInterval(() => {
-      i += 1;
-      if (i >= SECTION_IDS.length) {
-        window.clearInterval(timer);
-        return;
-      }
+      if (Date.now() < pausedUntil) return; // user just scrolled — hold, don't fight
+      i = (i + 1) % SECTION_IDS.length; // loop back to the top after the last section
       go(i);
     }, interval);
 
-    // A real visitor's first manual scroll cancels auto-advance permanently, so
-    // it can never fight someone who wants to drive. (Programmatic smooth scroll
-    // doesn't emit wheel/touch events, so this only catches human intent.)
-    const cancel = () => window.clearInterval(timer);
-    window.addEventListener("wheel", cancel, { passive: true });
-    window.addEventListener("touchstart", cancel, { passive: true });
+    // A manual scroll / keypress pauses for ~1.5 intervals, THEN resumes — so a
+    // stray trackpad touch never permanently stops the tour.
+    const pause = () => {
+      pausedUntil = Date.now() + interval * 1.5;
+    };
+    window.addEventListener("wheel", pause, { passive: true });
+    window.addEventListener("touchmove", pause, { passive: true });
+    window.addEventListener("keydown", pause);
 
     return () => {
       window.clearInterval(timer);
-      window.removeEventListener("wheel", cancel);
-      window.removeEventListener("touchstart", cancel);
+      window.removeEventListener("wheel", pause);
+      window.removeEventListener("touchmove", pause);
+      window.removeEventListener("keydown", pause);
       document.documentElement.classList.remove("present-mode");
     };
   }, []);
 
-  return null;
+  if (!active) return null;
+
+  // Visible confirmation that presentation mode is live. If you don't see this
+  // pill, the ?present flag didn't take — that's the whole diagnostic.
+  return (
+    <div className="fixed bottom-4 left-4 z-[100] flex items-center gap-2 rounded-full border border-border bg-bg-card/90 px-3 py-1 font-mono text-[11px] text-fg-muted backdrop-blur">
+      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-good" />
+      auto-advancing · scroll or press a key to pause
+    </div>
+  );
 }
