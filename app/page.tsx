@@ -69,6 +69,89 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Back office — the demand engine */}
+      <section id="backoffice" className="border-t border-border">
+        <div className="mx-auto max-w-6xl px-6 py-24">
+          <Reveal>
+            <p className="eyebrow mb-3">The demand engine</p>
+            <h2 className="display max-w-3xl text-4xl font-semibold sm:text-5xl">
+              Your back office is a paperwork factory. We run it.
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg text-fg-muted">
+              A mid-size GC juggles 450+ active document streams — RFIs, submittals, change orders,
+              pay apps, lien waivers, certified payroll. Buttress ingests and processes them
+              automatically. And in doing so, it reads exactly which trades your pipeline will fall short on.
+            </p>
+          </Reveal>
+
+          <div className="mt-14 grid items-center gap-12 md:grid-cols-2">
+            <Reveal>
+              <p className="eyebrow mb-5 text-fg-dim">What it takes off your desk</p>
+              <ul className="space-y-3">
+                {[
+                  "RFIs & submittal logs",
+                  "Change orders & purchase orders",
+                  "Pay applications — AIA G702 / G703",
+                  "Lien waivers & insurance certs (COIs)",
+                  "Certified payroll — WH-347",
+                  "Permits, inspections & daily reports",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-[15px] text-fg">
+                    <span className="font-mono text-[13px] text-good">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-7 max-w-md border-l-2 border-accent/50 pl-4 text-fg-muted">
+                Every parsed document sharpens the labor-demand signal — the proprietary data no
+                bolt-on outbound tool can see.
+              </p>
+            </Reveal>
+
+            {/* Live intake queue */}
+            <div className="rounded-2xl border border-border bg-bg-card p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="eyebrow">Document intake · automated</span>
+                <span className="font-mono text-[11px] text-good">● live</span>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { id: "RFI-142", label: "RFI · electrical routing conflict", status: "auto-answered", tone: "good" },
+                  { id: "SUB-088", label: "Submittal · 480V switchgear", status: "logged", tone: "good" },
+                  { id: "CO-031", label: "Change order · +$48,200", status: "drafted", tone: "accent" },
+                  { id: "G702", label: "Pay app · AIA G702 / G703", status: "assembled", tone: "good" },
+                  { id: "WH-347", label: "Certified payroll · this cycle", status: "filed", tone: "good" },
+                  { id: "COI-07", label: "Insurance cert · Sub #7", status: "expiring — flagged", tone: "warn" },
+                ].map((d) => (
+                  <div key={d.id} className="flex items-center justify-between rounded-lg border border-border bg-bg-elevated/50 px-3 py-2">
+                    <div className="min-w-0">
+                      <span className="font-mono text-[11px] text-fg-dim">{d.id}</span>
+                      <span className="ml-2 text-[13px] text-fg-muted">{d.label}</span>
+                    </div>
+                    <span
+                      className="ml-3 shrink-0 font-mono text-[11px]"
+                      style={{
+                        color:
+                          d.tone === "good"
+                            ? "var(--good)"
+                            : d.tone === "warn"
+                              ? "var(--accent)"
+                              : "var(--accent-soft)",
+                      }}
+                    >
+                      {d.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 rounded-lg border border-accent/30 bg-accent/5 px-3 py-2.5 font-mono text-[12px] text-accent-soft">
+                → derived: 12 electricians short · Phoenix · in 6 weeks
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* The Loop */}
       <section id="loop" className="border-t border-border">
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-2">

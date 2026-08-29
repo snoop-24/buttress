@@ -20,6 +20,7 @@ export function Nav() {
         </Link>
         <div className="hidden items-center gap-8 text-[14px] text-fg-muted md:flex">
           <Link href="/why" className="transition-colors hover:text-fg">Why</Link>
+          <a href="#backoffice" className="transition-colors hover:text-fg">Back office</a>
           <a href="#loop" className="transition-colors hover:text-fg">The Loop</a>
           <a href="#fleet" className="transition-colors hover:text-fg">Fleet</a>
           <Link href="/code" className="transition-colors hover:text-fg">Own the code</Link>
